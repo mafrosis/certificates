@@ -38,6 +38,10 @@ func New(addr string, handler http.Handler, tlsConfig *tls.Config) *Server {
 // newHTTPServer creates a new http.Server with the TCP address, handler and
 // tls.Config.
 func newHTTPServer(addr string, handler http.Handler, tlsConfig *tls.Config) *http.Server {
+	if os.Getenv("STEPFORCEHTTP") == "1" {
+		tlsConfig = nil
+	}
+
 	return &http.Server{
 		Addr:         addr,
 		Handler:      handler,
